@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/auth/auth_notifier.dart';
+import 'my_profile_notifier.dart';
+import 'my_profile_tab_content.dart';
 
 class ProfileTabPage extends ConsumerWidget {
   const ProfileTabPage({super.key});
@@ -9,13 +10,17 @@ class ProfileTabPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('프로필')),
-      body: Center(
-        child: FilledButton.tonal(
-          onPressed: () => ref.read(authNotifierProvider.notifier).logout(),
-          child: const Text('로그아웃'),
-        ),
+      appBar: AppBar(
+        title: const Text('마이페이지'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () =>
+                ref.read(myProfileNotifierProvider.notifier).refresh(),
+          ),
+        ],
       ),
+      body: const MyProfileTabContent(),
     );
   }
 }

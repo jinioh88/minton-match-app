@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# 로컬 OAuth/API dart-define (실제 클라이언트 ID — 커밋 금지)
+dart_defines.oauth.local.env
+.env.flutter.local

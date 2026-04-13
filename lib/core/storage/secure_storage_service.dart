@@ -10,6 +10,7 @@ class SecureStorageService {
 
   static const _keyAccessToken = 'auth_access_token';
   static const _keyRefreshToken = 'auth_refresh_token';
+  static const _keyProfileComplete = 'auth_profile_complete';
 
   Future<String?> readAccessToken() => _storage.read(key: _keyAccessToken);
 
@@ -25,11 +26,27 @@ class SecureStorageService {
 
   Future<void> deleteRefreshToken() => _storage.delete(key: _keyRefreshToken);
 
-  /// 로그아웃: 액세스·리프레시 토큰 제거.
+  /// OAuth 로그인 직후 서버가 알려준 값. 없으면(구버전 저장소) `null`.
+  Future<bool?> readProfileCompleteFlag() async {
+    final v = await _storage.read(key: _keyProfileComplete);
+    if (v == null) return null;
+    return v == 'true';
+  }
+
+  Future<void> writeProfileCompleteFlag(bool value) => _storage.write(
+        key: _keyProfileComplete,
+        value: value ? 'true' : 'false',
+      );
+
+  Future<void> deleteProfileCompleteFlag() =>
+      _storage.delete(key: _keyProfileComplete);
+
+  /// 로그아웃: 액세스·리프레시 토큰·프로필 완료 플래그 제거.
   Future<void> clearSessionTokens() async {
     await Future.wait([
       deleteAccessToken(),
       deleteRefreshToken(),
+      deleteProfileCompleteFlag(),
     ]);
   }
 }

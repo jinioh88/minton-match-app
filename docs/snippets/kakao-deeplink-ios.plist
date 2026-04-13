@@ -1,0 +1,15 @@
+<!--
+  카카오 로그인 리다이렉트가 kakao{네이티브앱키}://oauth 일 때,
+  ios/Runner/Info.plist 의 CFBundleURLTypes 배열에 아래 dict 를 추가합니다.
+  kakaoYOUR_NATIVE_APP_KEY → 네이티브 앱 키와 동일한 문자열 (스킴 = kakao + 키)
+-->
+<dict>
+	<key>CFBundleTypeRole</key>
+	<string>Editor</string>
+	<key>CFBundleURLName</key>
+	<string>com.kakao.oauth</string>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<string>kakaoYOUR_NATIVE_APP_KEY</string>
+	</array>
+</dict>

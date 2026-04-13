@@ -1,0 +1,15 @@
+<!--
+  카카오 로그인 리다이렉트가 kakao{네이티브앱키}://oauth 일 때 사용합니다.
+  1) 아래 android:scheme 의 kakaoYOUR_NATIVE_APP_KEY 를 콘솔의 네이티브 앱 키와 동일하게 바꿉니다.
+     (예: 네이티브 앱 키가 abcd1234 이면 스킴 전체는 kakaoabcd1234 — 콘솔 표기와 동일하게)
+  2) android/app/src/main/AndroidManifest.xml 의 <activity ...> 안,
+     기존 intent-filter 아래에 <intent-filter> 블록을 붙여 넣습니다.
+-->
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data
+        android:scheme="kakaoYOUR_NATIVE_APP_KEY"
+        android:host="oauth" />
+</intent-filter>
