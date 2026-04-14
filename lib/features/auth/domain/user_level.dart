@@ -20,7 +20,7 @@ extension UserLevelLabel on UserLevel {
         UserLevel.b => 'B급',
         UserLevel.c => 'C급',
         UserLevel.d => 'D급',
-        UserLevel.beginner => '초급',
+        UserLevel.beginner => '초심',
       };
 
   /// PATCH/JSON용 API 문자열.
