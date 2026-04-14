@@ -93,11 +93,13 @@ curl -s http://localhost:8080/api/health
 
 ### 2.1 Step 1-1 — 소셜 로그인
 
-**목표**: 인가 코드로 백엔드 로그인 후 JWT 저장, `profileComplete`에 따른 분기.
+**목표**: 네이티브 SDK 토큰(`socialAccessToken`)으로 백엔드 로그인 후 JWT 저장, `profileComplete`에 따른 분기.
 
 1. 앱 실행 → 스플래시 후 **로그인 화면**으로 이동하는지 확인합니다. (토큰이 없을 때)
-2. 사용할 소셜 버튼(예: 카카오)을 누릅니다.
-3. 브라우저/커스텀 탭에서 로그인·동의 후 **앱으로 복귀**하는지 확인합니다.
+2. 사용할 소셜 버튼(카카오/네이버/구글)을 누릅니다.
+3. 각 제공자 네이티브 화면(앱/계정창)에서 로그인·동의 후 앱으로 복귀하는지 확인합니다.
+   - 카카오는 `loginWithKakaoTalk()` 실패 시 `loginWithKakaoAccount()`로 폴백되는지 확인합니다.
+   - Apple은 현재 백엔드 정책상 authorization code 방식만 지원하므로 별도 테스트 경로로 분리합니다.
 4. 백엔드가 정상이면:
    - `user.profileComplete == false` 인 신규/미완료 계정 → **`/profile-setup`** (프로필 설정)으로 가는지
    - `profileComplete == true` 인 계정 → **`/home`** 으로 가는지  
@@ -105,8 +107,10 @@ curl -s http://localhost:8080/api/health
 
 **실패 시 점검**
 
-- 스낵바/로그: `KAKAO_NATIVE_KEY` 등 미설정, OAuth 콘솔 리다이렉트 불일치, 백엔드 `OAUTH_INVALID` 등
+- 스낵바/로그: 네이티브 SDK 키 미설정(Manifest/Info.plist), 콘솔 앱 등록 불일치, 백엔드 `OAUTH_SOCIAL_TOKEN_EXPIRED`/`OAUTH_INVALID` 등
 - 네트워크: `API_BASE_URL`이 기기에서 실제로 닿는지
+- Google은 반드시 `idToken`이 아닌 `accessToken`이 백엔드로 전달되는지 확인
+- Android `debug.keystore`의 SHA-1이 구글/네이버 콘솔 등록값과 완전 일치하는지 확인
 
 ---
 

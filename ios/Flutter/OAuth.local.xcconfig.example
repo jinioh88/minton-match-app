@@ -1,0 +1,8 @@
+// Copy to OAuth.local.xcconfig and fill real values.
+// cp ios/Flutter/OAuth.local.xcconfig.example ios/Flutter/OAuth.local.xcconfig
+
+KAKAO_OAUTH_SCHEME=kakaoYOUR_NATIVE_APP_KEY
+NAVER_URL_SCHEME=your.naver.url.scheme
+NAVER_CLIENT_ID=YOUR_NAVER_CLIENT_ID
+NAVER_CLIENT_SECRET=YOUR_NAVER_CLIENT_SECRET
+NAVER_APP_NAME=Minton Match App

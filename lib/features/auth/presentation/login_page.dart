@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/env/app_environment.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../shared/widgets/oauth_login_brand_button.dart';
 import '../data/auth_api_providers.dart';
@@ -27,17 +26,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     try {
       final oauth = ref.read(oauthAuthorizationServiceProvider);
       final api = ref.read(authApiServiceProvider);
-      final config = AppEnvironment.appConfig;
-      final code = await oauth.obtainAuthorizationCode(provider);
+      final socialAccessToken = await oauth.obtainSocialAccessToken(provider);
       final req = OAuthLoginRequestDto(
         provider: provider.apiName,
-        authorizationCode: code,
-        redirectUri: switch (provider) {
-          OAuth2Provider.kakao => config.kakaoSdkRedirectUri,
-          OAuth2Provider.naver => config.naverAuthorizeRedirectUri,
-          OAuth2Provider.google => config.googleAuthorizeRedirectUri,
-          _ => config.oauthRedirectUri,
-        },
+        socialAccessToken: socialAccessToken,
       );
       final envelope = await api.oauthLogin(req.toJson());
       final data = envelope.data;

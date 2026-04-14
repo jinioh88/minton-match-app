@@ -9,5 +9,5 @@ final authApiServiceProvider = Provider<AuthApiService>((ref) {
 });
 
 final oauthAuthorizationServiceProvider = Provider<OAuthAuthorizationService>((ref) {
-  return OAuthAuthorizationService(api: ref.watch(authApiServiceProvider));
+  return OAuthAuthorizationService();
 });

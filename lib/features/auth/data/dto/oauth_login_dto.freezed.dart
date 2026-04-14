@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OAuthLoginRequestDto {
 
- String get provider;@JsonKey(name: 'authorizationCode') String get authorizationCode;@JsonKey(name: 'redirectUri') String get redirectUri;
+ String get provider;@JsonKey(name: 'socialAccessToken') String? get socialAccessToken;@JsonKey(name: 'authorizationCode') String? get authorizationCode;@JsonKey(name: 'redirectUri') String? get redirectUri;
 /// Create a copy of OAuthLoginRequestDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $OAuthLoginRequestDtoCopyWith<OAuthLoginRequestDto> get copyWith => _$OAuthLogin
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OAuthLoginRequestDto&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.authorizationCode, authorizationCode) || other.authorizationCode == authorizationCode)&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OAuthLoginRequestDto&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.socialAccessToken, socialAccessToken) || other.socialAccessToken == socialAccessToken)&&(identical(other.authorizationCode, authorizationCode) || other.authorizationCode == authorizationCode)&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,provider,authorizationCode,redirectUri);
+int get hashCode => Object.hash(runtimeType,provider,socialAccessToken,authorizationCode,redirectUri);
 
 @override
 String toString() {
-  return 'OAuthLoginRequestDto(provider: $provider, authorizationCode: $authorizationCode, redirectUri: $redirectUri)';
+  return 'OAuthLoginRequestDto(provider: $provider, socialAccessToken: $socialAccessToken, authorizationCode: $authorizationCode, redirectUri: $redirectUri)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $OAuthLoginRequestDtoCopyWith<$Res>  {
   factory $OAuthLoginRequestDtoCopyWith(OAuthLoginRequestDto value, $Res Function(OAuthLoginRequestDto) _then) = _$OAuthLoginRequestDtoCopyWithImpl;
 @useResult
 $Res call({
- String provider,@JsonKey(name: 'authorizationCode') String authorizationCode,@JsonKey(name: 'redirectUri') String redirectUri
+ String provider,@JsonKey(name: 'socialAccessToken') String? socialAccessToken,@JsonKey(name: 'authorizationCode') String? authorizationCode,@JsonKey(name: 'redirectUri') String? redirectUri
 });
 
 
@@ -65,12 +65,13 @@ class _$OAuthLoginRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of OAuthLoginRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? provider = null,Object? authorizationCode = null,Object? redirectUri = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? provider = null,Object? socialAccessToken = freezed,Object? authorizationCode = freezed,Object? redirectUri = freezed,}) {
   return _then(_self.copyWith(
 provider: null == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
-as String,authorizationCode: null == authorizationCode ? _self.authorizationCode : authorizationCode // ignore: cast_nullable_to_non_nullable
-as String,redirectUri: null == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
-as String,
+as String,socialAccessToken: freezed == socialAccessToken ? _self.socialAccessToken : socialAccessToken // ignore: cast_nullable_to_non_nullable
+as String?,authorizationCode: freezed == authorizationCode ? _self.authorizationCode : authorizationCode // ignore: cast_nullable_to_non_nullable
+as String?,redirectUri: freezed == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String provider, @JsonKey(name: 'authorizationCode')  String authorizationCode, @JsonKey(name: 'redirectUri')  String redirectUri)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String provider, @JsonKey(name: 'socialAccessToken')  String? socialAccessToken, @JsonKey(name: 'authorizationCode')  String? authorizationCode, @JsonKey(name: 'redirectUri')  String? redirectUri)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OAuthLoginRequestDto() when $default != null:
-return $default(_that.provider,_that.authorizationCode,_that.redirectUri);case _:
+return $default(_that.provider,_that.socialAccessToken,_that.authorizationCode,_that.redirectUri);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.provider,_that.authorizationCode,_that.redirectUri);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String provider, @JsonKey(name: 'authorizationCode')  String authorizationCode, @JsonKey(name: 'redirectUri')  String redirectUri)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String provider, @JsonKey(name: 'socialAccessToken')  String? socialAccessToken, @JsonKey(name: 'authorizationCode')  String? authorizationCode, @JsonKey(name: 'redirectUri')  String? redirectUri)  $default,) {final _that = this;
 switch (_that) {
 case _OAuthLoginRequestDto():
-return $default(_that.provider,_that.authorizationCode,_that.redirectUri);case _:
+return $default(_that.provider,_that.socialAccessToken,_that.authorizationCode,_that.redirectUri);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.provider,_that.authorizationCode,_that.redirectUri);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String provider, @JsonKey(name: 'authorizationCode')  String authorizationCode, @JsonKey(name: 'redirectUri')  String redirectUri)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String provider, @JsonKey(name: 'socialAccessToken')  String? socialAccessToken, @JsonKey(name: 'authorizationCode')  String? authorizationCode, @JsonKey(name: 'redirectUri')  String? redirectUri)?  $default,) {final _that = this;
 switch (_that) {
 case _OAuthLoginRequestDto() when $default != null:
-return $default(_that.provider,_that.authorizationCode,_that.redirectUri);case _:
+return $default(_that.provider,_that.socialAccessToken,_that.authorizationCode,_that.redirectUri);case _:
   return null;
 
 }
@@ -211,12 +212,13 @@ return $default(_that.provider,_that.authorizationCode,_that.redirectUri);case _
 @JsonSerializable()
 
 class _OAuthLoginRequestDto implements OAuthLoginRequestDto {
-  const _OAuthLoginRequestDto({required this.provider, @JsonKey(name: 'authorizationCode') required this.authorizationCode, @JsonKey(name: 'redirectUri') required this.redirectUri});
+  const _OAuthLoginRequestDto({required this.provider, @JsonKey(name: 'socialAccessToken') this.socialAccessToken, @JsonKey(name: 'authorizationCode') this.authorizationCode, @JsonKey(name: 'redirectUri') this.redirectUri});
   factory _OAuthLoginRequestDto.fromJson(Map<String, dynamic> json) => _$OAuthLoginRequestDtoFromJson(json);
 
 @override final  String provider;
-@override@JsonKey(name: 'authorizationCode') final  String authorizationCode;
-@override@JsonKey(name: 'redirectUri') final  String redirectUri;
+@override@JsonKey(name: 'socialAccessToken') final  String? socialAccessToken;
+@override@JsonKey(name: 'authorizationCode') final  String? authorizationCode;
+@override@JsonKey(name: 'redirectUri') final  String? redirectUri;
 
 /// Create a copy of OAuthLoginRequestDto
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OAuthLoginRequestDto&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.authorizationCode, authorizationCode) || other.authorizationCode == authorizationCode)&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OAuthLoginRequestDto&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.socialAccessToken, socialAccessToken) || other.socialAccessToken == socialAccessToken)&&(identical(other.authorizationCode, authorizationCode) || other.authorizationCode == authorizationCode)&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,provider,authorizationCode,redirectUri);
+int get hashCode => Object.hash(runtimeType,provider,socialAccessToken,authorizationCode,redirectUri);
 
 @override
 String toString() {
-  return 'OAuthLoginRequestDto(provider: $provider, authorizationCode: $authorizationCode, redirectUri: $redirectUri)';
+  return 'OAuthLoginRequestDto(provider: $provider, socialAccessToken: $socialAccessToken, authorizationCode: $authorizationCode, redirectUri: $redirectUri)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$OAuthLoginRequestDtoCopyWith<$Res> implements $OAuthLogin
   factory _$OAuthLoginRequestDtoCopyWith(_OAuthLoginRequestDto value, $Res Function(_OAuthLoginRequestDto) _then) = __$OAuthLoginRequestDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String provider,@JsonKey(name: 'authorizationCode') String authorizationCode,@JsonKey(name: 'redirectUri') String redirectUri
+ String provider,@JsonKey(name: 'socialAccessToken') String? socialAccessToken,@JsonKey(name: 'authorizationCode') String? authorizationCode,@JsonKey(name: 'redirectUri') String? redirectUri
 });
 
 
@@ -268,12 +270,13 @@ class __$OAuthLoginRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of OAuthLoginRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? provider = null,Object? authorizationCode = null,Object? redirectUri = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? provider = null,Object? socialAccessToken = freezed,Object? authorizationCode = freezed,Object? redirectUri = freezed,}) {
   return _then(_OAuthLoginRequestDto(
 provider: null == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
-as String,authorizationCode: null == authorizationCode ? _self.authorizationCode : authorizationCode // ignore: cast_nullable_to_non_nullable
-as String,redirectUri: null == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
-as String,
+as String,socialAccessToken: freezed == socialAccessToken ? _self.socialAccessToken : socialAccessToken // ignore: cast_nullable_to_non_nullable
+as String?,authorizationCode: freezed == authorizationCode ? _self.authorizationCode : authorizationCode // ignore: cast_nullable_to_non_nullable
+as String?,redirectUri: freezed == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

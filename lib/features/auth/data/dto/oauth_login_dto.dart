@@ -10,8 +10,9 @@ Object? _oauthLoginReadAccessToken(Map<dynamic, dynamic> json, String key) =>
 abstract class OAuthLoginRequestDto with _$OAuthLoginRequestDto {
   const factory OAuthLoginRequestDto({
     required String provider,
-    @JsonKey(name: 'authorizationCode') required String authorizationCode,
-    @JsonKey(name: 'redirectUri') required String redirectUri,
+    @JsonKey(name: 'socialAccessToken') String? socialAccessToken,
+    @JsonKey(name: 'authorizationCode') String? authorizationCode,
+    @JsonKey(name: 'redirectUri') String? redirectUri,
   }) = _OAuthLoginRequestDto;
 
   factory OAuthLoginRequestDto.fromJson(Map<String, dynamic> json) =>

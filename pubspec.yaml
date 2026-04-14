@@ -49,6 +49,9 @@ dependencies:
   flutter_web_auth_2: ^5.0.2
   kakao_flutter_sdk_common: ^2.0.0+1
   kakao_flutter_sdk_auth: ^2.0.0+1
+  google_sign_in: ^7.2.0
+  flutter_naver_login: ^2.1.1
+  kakao_flutter_sdk_user: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:

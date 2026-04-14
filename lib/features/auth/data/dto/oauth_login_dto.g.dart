@@ -10,14 +10,16 @@ _OAuthLoginRequestDto _$OAuthLoginRequestDtoFromJson(
   Map<String, dynamic> json,
 ) => _OAuthLoginRequestDto(
   provider: json['provider'] as String,
-  authorizationCode: json['authorizationCode'] as String,
-  redirectUri: json['redirectUri'] as String,
+  socialAccessToken: json['socialAccessToken'] as String?,
+  authorizationCode: json['authorizationCode'] as String?,
+  redirectUri: json['redirectUri'] as String?,
 );
 
 Map<String, dynamic> _$OAuthLoginRequestDtoToJson(
   _OAuthLoginRequestDto instance,
 ) => <String, dynamic>{
   'provider': instance.provider,
+  'socialAccessToken': instance.socialAccessToken,
   'authorizationCode': instance.authorizationCode,
   'redirectUri': instance.redirectUri,
 };

@@ -34,7 +34,8 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.mintonmatch.app</string>
-				<string>kakao5847b9a64f1c8a80511bb1aeee6adb6a</string>
+				<string>$(KAKAO_OAUTH_SCHEME)</string>
+				<string>$(NAVER_URL_SCHEME)</string>
 			</array>
 		</dict>
 	</array>
@@ -43,7 +44,17 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 		<string>kakaoplus</string>
+		<string>naversearchapp</string>
+		<string>naversearchthirdlogin</string>
 	</array>
+	<key>NidUrlScheme</key>
+	<string>$(NAVER_URL_SCHEME)</string>
+	<key>NidClientID</key>
+	<string>$(NAVER_CLIENT_ID)</string>
+	<key>NidClientSecret</key>
+	<string>$(NAVER_CLIENT_SECRET)</string>
+	<key>NidAppName</key>
+	<string>$(NAVER_APP_NAME)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

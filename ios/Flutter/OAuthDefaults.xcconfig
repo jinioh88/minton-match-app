@@ -1,0 +1,8 @@
+// OAuth native SDK defaults (safe to commit).
+// Override via ios/Flutter/OAuth.local.xcconfig (gitignored) when needed.
+
+KAKAO_OAUTH_SCHEME=com.mintonmatch.app
+NAVER_URL_SCHEME=com.mintonmatch.app.naver
+NAVER_CLIENT_ID=
+NAVER_CLIENT_SECRET=
+NAVER_APP_NAME=Minton Match App

@@ -5,6 +5,14 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+fun resolveSecret(name: String, defaultValue: String = ""): String {
+    val fromGradle = project.findProperty(name)?.toString()?.trim().orEmpty()
+    if (fromGradle.isNotEmpty()) return fromGradle
+    val fromEnv = System.getenv(name)?.trim().orEmpty()
+    if (fromEnv.isNotEmpty()) return fromEnv
+    return defaultValue
+}
+
 android {
     namespace = "com.example.minton_match_app"
     compileSdk = flutter.compileSdkVersion
@@ -20,10 +28,15 @@ android {
     }
 
     defaultConfig {
-        // 카카오 리다이렉트 `kakao{네이티브앱키}://oauth` 와 동일해야 함.
-        // `--dart-define=KAKAO_NATIVE_APP_KEY=...` 값과 맞추세요.
+        // OAuth 네이티브 SDK 설정값: -P 또는 OS 환경변수로 주입.
+        // 예) ./gradlew assembleDebug -PKAKAO_OAUTH_SCHEME=... -PNAVER_CLIENT_ID=...
         manifestPlaceholders["kakaoOAuthScheme"] =
-            "kakao5847b9a64f1c8a80511bb1aeee6adb6a"
+            resolveSecret("KAKAO_OAUTH_SCHEME", "com.mintonmatch.app")
+        manifestPlaceholders["naverClientId"] = resolveSecret("NAVER_CLIENT_ID")
+        manifestPlaceholders["naverClientSecret"] =
+            resolveSecret("NAVER_CLIENT_SECRET")
+        manifestPlaceholders["naverClientName"] =
+            resolveSecret("NAVER_CLIENT_NAME", "Minton Match App")
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.minton_match_app"
         // You can update the following values to match your application needs.
