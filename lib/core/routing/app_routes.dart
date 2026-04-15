@@ -5,6 +5,9 @@ abstract final class AppRoutes {
   static const home = '/home';
   static const chat = '/chat';
   static const profile = '/profile';
+  static const createMatch = '/matches/create';
 
   static String userProfile(int userId) => '/users/$userId';
+  static String matchDetail(int matchId) => '/matches/$matchId';
+  static String matchEdit(int matchId) => '/matches/$matchId/edit';
 }

@@ -5,6 +5,21 @@ import '../../../auth/domain/user_level.dart';
 part 'user_profile_dto.freezed.dart';
 part 'user_profile_dto.g.dart';
 
+Object? _readJoinedAt(Map<dynamic, dynamic> json, String key) {
+  return json['joinedAt'] ?? json['joined_at'] ?? json['createdAt'];
+}
+
+Object? _readMannerTags(Map<dynamic, dynamic> json, String key) {
+  return json['mannerTags'] ?? json['manner_tags'] ?? json['tags'];
+}
+
+List<String>? _tagsFromJson(Object? raw) {
+  if (raw is List) {
+    return raw.whereType<String>().toList();
+  }
+  return null;
+}
+
 @freezed
 abstract class UserProfileDto with _$UserProfileDto {
   const factory UserProfileDto({
@@ -20,6 +35,9 @@ abstract class UserProfileDto with _$UserProfileDto {
     @JsonKey(name: 'penaltyCount') int? penaltyCount,
     @JsonKey(name: 'hostedMatchCount') int? hostedMatchCount,
     @JsonKey(name: 'participatedMatchCount') int? participatedMatchCount,
+    @JsonKey(readValue: _readJoinedAt) String? joinedAt,
+    @JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson)
+    List<String>? mannerTags,
   }) = _UserProfileDto;
 
   factory UserProfileDto.fromJson(Map<String, dynamic> json) =>

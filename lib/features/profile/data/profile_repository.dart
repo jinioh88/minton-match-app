@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/api_exception.dart';
@@ -38,6 +40,11 @@ class ProfileRepository {
 
   Future<UserProfileDto> patchMe(UserProfilePatchDto body) async {
     final res = await _api.patchMe(body.toJson());
+    return _unwrapProfile(res);
+  }
+
+  Future<UserProfileDto> uploadProfileImage(File imageFile) async {
+    final res = await _api.uploadProfileImage(imageFile);
     return _unwrapProfile(res);
   }
 

@@ -58,7 +58,7 @@
 | B | B급 |
 | C | C급 |
 | D | D급 |
-| BEGINNER | 초급 |
+| BEGINNER | 초심 |
 
 ### Role (역할, JWT 클레임용)
 

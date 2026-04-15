@@ -20,6 +20,8 @@ _UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
       penaltyCount: (json['penaltyCount'] as num?)?.toInt(),
       hostedMatchCount: (json['hostedMatchCount'] as num?)?.toInt(),
       participatedMatchCount: (json['participatedMatchCount'] as num?)?.toInt(),
+      joinedAt: _readJoinedAt(json, 'joinedAt') as String?,
+      mannerTags: _tagsFromJson(_readMannerTags(json, 'mannerTags')),
     );
 
 Map<String, dynamic> _$UserProfileDtoToJson(_UserProfileDto instance) =>
@@ -36,6 +38,8 @@ Map<String, dynamic> _$UserProfileDtoToJson(_UserProfileDto instance) =>
       'penaltyCount': instance.penaltyCount,
       'hostedMatchCount': instance.hostedMatchCount,
       'participatedMatchCount': instance.participatedMatchCount,
+      'joinedAt': instance.joinedAt,
+      'mannerTags': instance.mannerTags,
     };
 
 _UserProfileEnvelope _$UserProfileEnvelopeFromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/auth/auth_notifier.dart';
 import '../../../core/network/api_exception.dart';
@@ -12,7 +15,7 @@ import '../../auth/domain/user_level.dart';
 import '../data/dto/user_profile_dto.dart';
 import '../data/dto/user_profile_patch_dto.dart';
 import 'my_profile_notifier.dart';
-import 'widgets/profile_avatar.dart';
+import 'widgets/profile_overview_widgets.dart';
 
 class MyProfileTabContent extends ConsumerStatefulWidget {
   const MyProfileTabContent({super.key});
@@ -32,6 +35,8 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
   String? _playStyle;
   UserLevel? _level;
   bool _saving = false;
+  bool _uploadingImage = false;
+  final _imagePicker = ImagePicker();
 
   @override
   void dispose() {
@@ -81,6 +86,61 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
     }
   }
 
+  Future<ImageSource?> _pickImageSource() async {
+    return showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('갤러리에서 선택'),
+              onTap: () => Navigator.of(context).pop(ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined),
+              title: const Text('카메라로 촬영'),
+              onTap: () => Navigator.of(context).pop(ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickAndUploadProfileImage() async {
+    if (_uploadingImage) return;
+    final source = await _pickImageSource();
+    if (source == null) return;
+
+    final pickedFile = await _imagePicker.pickImage(
+      source: source,
+      maxWidth: 1600,
+      imageQuality: 85,
+    );
+    if (pickedFile == null) return;
+
+    setState(() => _uploadingImage = true);
+    try {
+      final updated = await ref
+          .read(myProfileNotifierProvider.notifier)
+          .uploadProfileImage(File(pickedFile.path));
+      _img.text = updated.profileImg ?? '';
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('프로필 이미지가 업데이트되었습니다.')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(_msg(e))),
+      );
+    } finally {
+      if (mounted) setState(() => _uploadingImage = false);
+    }
+  }
+
   String _msg(Object e) {
     if (e is DioException && e.error is ApiException) {
       return (e.error! as ApiException).message ?? '저장 실패';
@@ -116,7 +176,10 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
         return ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            _ProfileHeaderSection(profile: p),
+            _ProfileHeaderSection(
+              profile: p,
+              onCameraTap: _pickAndUploadProfileImage,
+            ),
             const SizedBox(height: 24),
             _ActivitySummarySection(profile: p),
             const SizedBox(height: 24),
@@ -145,108 +208,45 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
 }
 
 class _ProfileHeaderSection extends StatelessWidget {
-  const _ProfileHeaderSection({required this.profile});
+  const _ProfileHeaderSection({
+    required this.profile,
+    required this.onCameraTap,
+  });
 
   final UserProfileDto profile;
+  final VoidCallback onCameraTap;
 
   @override
   Widget build(BuildContext context) {
-    final level = profile.levelEnum?.label ?? '-';
-    final rating = (profile.ratingScore ?? 0).toStringAsFixed(1);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            ProfileAvatar(imageUrl: profile.profileImg, radius: 38),
-            Positioned(
-              right: -2,
-              bottom: -2,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.camera_alt_outlined, size: 16),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      profile.nickname,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1ABC9C),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      level,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '가입일: -',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star_border, color: Color(0xFFFFC107), size: 18),
-                  const SizedBox(width: 6),
-                  Text(
-                    '$rating / 5.0',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: const [
-                  _TagChip(label: '#매너왕'),
-                  _TagChip(label: '#열정맨'),
-                  _TagChip(label: '#정확한판정'),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+    final joinedAtText = _joinedAtLabel(profile.joinedAt);
+    final tags = _resolvedTags(profile.mannerTags);
+    return ProfileOverviewHeader(
+      profile: profile,
+      joinedAtText: joinedAtText,
+      showCameraBadge: true,
+      onCameraTap: onCameraTap,
+      tags: tags,
     );
   }
+}
+
+String _joinedAtLabel(String? raw) {
+  if (raw == null || raw.trim().isEmpty) return '가입일: -';
+  final parsed = DateTime.tryParse(raw.trim());
+  if (parsed == null) return '가입일: -';
+  final y = parsed.year.toString().padLeft(4, '0');
+  final m = parsed.month.toString().padLeft(2, '0');
+  final d = parsed.day.toString().padLeft(2, '0');
+  return '가입일: $y.$m.$d';
+}
+
+List<String> _resolvedTags(List<String>? tags) {
+  return (tags ?? const <String>[])
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .take(3)
+      .map((e) => e.startsWith('#') ? e : '#$e')
+      .toList();
 }
 
 class _ActivitySummarySection extends StatelessWidget {
@@ -256,43 +256,7 @@ class _ActivitySummarySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hosted = profile.hostedMatchCount ?? 0;
-    final joined = profile.participatedMatchCount ?? 0;
-    final penalty = profile.penaltyCount ?? 0;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('활동 요약', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(
-              child: _SummaryCard(
-                value: '$hosted',
-                label: '내가 만든 매칭',
-                valueColor: const Color(0xFF10B981),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _SummaryCard(
-                value: '$joined',
-                label: '참여한 매칭',
-                valueColor: const Color(0xFF10B981),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _SummaryCard(
-                value: '$penalty',
-                label: '패널티',
-                valueColor: const Color(0xFFE53935),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
+    return ProfileActivitySummarySection(profile: profile);
   }
 }
 
@@ -312,41 +276,13 @@ class _DetailedSettingsSection extends StatelessWidget {
     final racket = profile.racketInfo?.trim().isNotEmpty == true
         ? profile.racketInfo!.trim()
         : '-';
-    final playStyle = profile.playStyle?.trim();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(height: 1),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Text('상세 설정', style: Theme.of(context).textTheme.titleMedium),
-            const Spacer(),
-            TextButton(onPressed: onEdit, child: const Text('수정')),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Text('관심 지역', style: Theme.of(context).textTheme.labelLarge),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(child: _ReadonlyField(value: loc1)),
-            const SizedBox(width: 10),
-            Expanded(child: _ReadonlyField(value: loc2)),
-          ],
-        ),
-        const SizedBox(height: 14),
-        Text('나의 장비', style: Theme.of(context).textTheme.labelLarge),
-        const SizedBox(height: 8),
-        _ReadonlyField(value: racket),
-        const SizedBox(height: 14),
-        Text('플레이 스타일', style: Theme.of(context).textTheme.labelLarge),
-        const SizedBox(height: 8),
-        if (playStyle == null || playStyle.isEmpty)
-          const _ReadonlyField(value: '-')
-        else
-          _StyleChip(label: playStyle, selected: true),
-      ],
+    return ProfileDetailsSection(
+      title: '상세 설정',
+      loc1Label: loc1,
+      loc2Label: loc2,
+      racketLabel: racket,
+      playStyleLabel: profile.playStyle,
+      onEdit: onEdit,
     );
   }
 }
@@ -364,115 +300,6 @@ class _MenuListSection extends StatelessWidget {
         _MenuItem(label: '공지사항 및 고객센터'),
         _MenuItem(label: '계정 관리'),
       ],
-    );
-  }
-}
-
-class _TagChip extends StatelessWidget {
-  const _TagChip({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE8FFF7),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: const Color(0xFF14A37F),
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _SummaryCard extends StatelessWidget {
-  const _SummaryCard({
-    required this.value,
-    required this.label,
-    required this.valueColor,
-  });
-
-  final String value;
-  final String label;
-  final Color valueColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: valueColor,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(label, style: Theme.of(context).textTheme.labelSmall),
-        ],
-      ),
-    );
-  }
-}
-
-class _ReadonlyField extends StatelessWidget {
-  const _ReadonlyField({required this.value});
-
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 46,
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Text(value, style: Theme.of(context).textTheme.bodyMedium),
-    );
-  }
-}
-
-class _StyleChip extends StatelessWidget {
-  const _StyleChip({required this.label, required this.selected});
-
-  final String label;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: selected ? const Color(0xFF10B981) : Colors.white,
-        border: Border.all(
-          color: selected ? const Color(0xFF10B981) : Colors.grey.shade300,
-        ),
-      ),
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: selected ? Colors.white : Theme.of(context).colorScheme.onSurface,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
     );
   }
 }

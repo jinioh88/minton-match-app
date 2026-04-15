@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/login_page.dart';
 import '../../features/chat/presentation/chat_tab_page.dart';
 import '../../features/home/presentation/home_tab_page.dart';
+import '../../features/match/presentation/create_match_page.dart';
+import '../../features/match/presentation/edit_match_page.dart';
+import '../../features/match/presentation/match_detail_page.dart';
 import '../../features/profile/presentation/profile_setup_page.dart';
 import '../../features/profile/presentation/profile_tab_page.dart';
 import '../../features/profile/presentation/user_profile_page.dart';
@@ -95,6 +98,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = int.tryParse(state.pathParameters['userId'] ?? '') ?? 0;
           return UserProfilePage(userId: id);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.createMatch,
+        builder: (context, state) => const CreateMatchPage(),
+      ),
+      GoRoute(
+        path: '/matches/:matchId',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['matchId'] ?? '') ?? 0;
+          return MatchDetailPage(matchId: id);
+        },
+      ),
+      GoRoute(
+        path: '/matches/:matchId/edit',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['matchId'] ?? '') ?? 0;
+          return EditMatchPage(matchId: id);
         },
       ),
       StatefulShellRoute.indexedStack(

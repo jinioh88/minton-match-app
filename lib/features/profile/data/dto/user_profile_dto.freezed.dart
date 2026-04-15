@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserProfileDto {
 
- int get id; String get nickname; String? get profileImg; String? get level;@JsonKey(name: 'interestLoc1') String? get interestLoc1;@JsonKey(name: 'interestLoc2') String? get interestLoc2;@JsonKey(name: 'racketInfo') String? get racketInfo;@JsonKey(name: 'playStyle') String? get playStyle;@JsonKey(name: 'ratingScore') double? get ratingScore;@JsonKey(name: 'penaltyCount') int? get penaltyCount;@JsonKey(name: 'hostedMatchCount') int? get hostedMatchCount;@JsonKey(name: 'participatedMatchCount') int? get participatedMatchCount;
+ int get id; String get nickname; String? get profileImg; String? get level;@JsonKey(name: 'interestLoc1') String? get interestLoc1;@JsonKey(name: 'interestLoc2') String? get interestLoc2;@JsonKey(name: 'racketInfo') String? get racketInfo;@JsonKey(name: 'playStyle') String? get playStyle;@JsonKey(name: 'ratingScore') double? get ratingScore;@JsonKey(name: 'penaltyCount') int? get penaltyCount;@JsonKey(name: 'hostedMatchCount') int? get hostedMatchCount;@JsonKey(name: 'participatedMatchCount') int? get participatedMatchCount;@JsonKey(readValue: _readJoinedAt) String? get joinedAt;@JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson) List<String>? get mannerTags;
 /// Create a copy of UserProfileDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UserProfileDtoCopyWith<UserProfileDto> get copyWith => _$UserProfileDtoCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfileDto&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImg, profileImg) || other.profileImg == profileImg)&&(identical(other.level, level) || other.level == level)&&(identical(other.interestLoc1, interestLoc1) || other.interestLoc1 == interestLoc1)&&(identical(other.interestLoc2, interestLoc2) || other.interestLoc2 == interestLoc2)&&(identical(other.racketInfo, racketInfo) || other.racketInfo == racketInfo)&&(identical(other.playStyle, playStyle) || other.playStyle == playStyle)&&(identical(other.ratingScore, ratingScore) || other.ratingScore == ratingScore)&&(identical(other.penaltyCount, penaltyCount) || other.penaltyCount == penaltyCount)&&(identical(other.hostedMatchCount, hostedMatchCount) || other.hostedMatchCount == hostedMatchCount)&&(identical(other.participatedMatchCount, participatedMatchCount) || other.participatedMatchCount == participatedMatchCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfileDto&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImg, profileImg) || other.profileImg == profileImg)&&(identical(other.level, level) || other.level == level)&&(identical(other.interestLoc1, interestLoc1) || other.interestLoc1 == interestLoc1)&&(identical(other.interestLoc2, interestLoc2) || other.interestLoc2 == interestLoc2)&&(identical(other.racketInfo, racketInfo) || other.racketInfo == racketInfo)&&(identical(other.playStyle, playStyle) || other.playStyle == playStyle)&&(identical(other.ratingScore, ratingScore) || other.ratingScore == ratingScore)&&(identical(other.penaltyCount, penaltyCount) || other.penaltyCount == penaltyCount)&&(identical(other.hostedMatchCount, hostedMatchCount) || other.hostedMatchCount == hostedMatchCount)&&(identical(other.participatedMatchCount, participatedMatchCount) || other.participatedMatchCount == participatedMatchCount)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt)&&const DeepCollectionEquality().equals(other.mannerTags, mannerTags));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nickname,profileImg,level,interestLoc1,interestLoc2,racketInfo,playStyle,ratingScore,penaltyCount,hostedMatchCount,participatedMatchCount);
+int get hashCode => Object.hash(runtimeType,id,nickname,profileImg,level,interestLoc1,interestLoc2,racketInfo,playStyle,ratingScore,penaltyCount,hostedMatchCount,participatedMatchCount,joinedAt,const DeepCollectionEquality().hash(mannerTags));
 
 @override
 String toString() {
-  return 'UserProfileDto(id: $id, nickname: $nickname, profileImg: $profileImg, level: $level, interestLoc1: $interestLoc1, interestLoc2: $interestLoc2, racketInfo: $racketInfo, playStyle: $playStyle, ratingScore: $ratingScore, penaltyCount: $penaltyCount, hostedMatchCount: $hostedMatchCount, participatedMatchCount: $participatedMatchCount)';
+  return 'UserProfileDto(id: $id, nickname: $nickname, profileImg: $profileImg, level: $level, interestLoc1: $interestLoc1, interestLoc2: $interestLoc2, racketInfo: $racketInfo, playStyle: $playStyle, ratingScore: $ratingScore, penaltyCount: $penaltyCount, hostedMatchCount: $hostedMatchCount, participatedMatchCount: $participatedMatchCount, joinedAt: $joinedAt, mannerTags: $mannerTags)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UserProfileDtoCopyWith<$Res>  {
   factory $UserProfileDtoCopyWith(UserProfileDto value, $Res Function(UserProfileDto) _then) = _$UserProfileDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String nickname, String? profileImg, String? level,@JsonKey(name: 'interestLoc1') String? interestLoc1,@JsonKey(name: 'interestLoc2') String? interestLoc2,@JsonKey(name: 'racketInfo') String? racketInfo,@JsonKey(name: 'playStyle') String? playStyle,@JsonKey(name: 'ratingScore') double? ratingScore,@JsonKey(name: 'penaltyCount') int? penaltyCount,@JsonKey(name: 'hostedMatchCount') int? hostedMatchCount,@JsonKey(name: 'participatedMatchCount') int? participatedMatchCount
+ int id, String nickname, String? profileImg, String? level,@JsonKey(name: 'interestLoc1') String? interestLoc1,@JsonKey(name: 'interestLoc2') String? interestLoc2,@JsonKey(name: 'racketInfo') String? racketInfo,@JsonKey(name: 'playStyle') String? playStyle,@JsonKey(name: 'ratingScore') double? ratingScore,@JsonKey(name: 'penaltyCount') int? penaltyCount,@JsonKey(name: 'hostedMatchCount') int? hostedMatchCount,@JsonKey(name: 'participatedMatchCount') int? participatedMatchCount,@JsonKey(readValue: _readJoinedAt) String? joinedAt,@JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson) List<String>? mannerTags
 });
 
 
@@ -65,7 +65,7 @@ class _$UserProfileDtoCopyWithImpl<$Res>
 
 /// Create a copy of UserProfileDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nickname = null,Object? profileImg = freezed,Object? level = freezed,Object? interestLoc1 = freezed,Object? interestLoc2 = freezed,Object? racketInfo = freezed,Object? playStyle = freezed,Object? ratingScore = freezed,Object? penaltyCount = freezed,Object? hostedMatchCount = freezed,Object? participatedMatchCount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nickname = null,Object? profileImg = freezed,Object? level = freezed,Object? interestLoc1 = freezed,Object? interestLoc2 = freezed,Object? racketInfo = freezed,Object? playStyle = freezed,Object? ratingScore = freezed,Object? penaltyCount = freezed,Object? hostedMatchCount = freezed,Object? participatedMatchCount = freezed,Object? joinedAt = freezed,Object? mannerTags = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
@@ -79,7 +79,9 @@ as String?,ratingScore: freezed == ratingScore ? _self.ratingScore : ratingScore
 as double?,penaltyCount: freezed == penaltyCount ? _self.penaltyCount : penaltyCount // ignore: cast_nullable_to_non_nullable
 as int?,hostedMatchCount: freezed == hostedMatchCount ? _self.hostedMatchCount : hostedMatchCount // ignore: cast_nullable_to_non_nullable
 as int?,participatedMatchCount: freezed == participatedMatchCount ? _self.participatedMatchCount : participatedMatchCount // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,joinedAt: freezed == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
+as String?,mannerTags: freezed == mannerTags ? _self.mannerTags : mannerTags // ignore: cast_nullable_to_non_nullable
+as List<String>?,
   ));
 }
 
@@ -164,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String nickname,  String? profileImg,  String? level, @JsonKey(name: 'interestLoc1')  String? interestLoc1, @JsonKey(name: 'interestLoc2')  String? interestLoc2, @JsonKey(name: 'racketInfo')  String? racketInfo, @JsonKey(name: 'playStyle')  String? playStyle, @JsonKey(name: 'ratingScore')  double? ratingScore, @JsonKey(name: 'penaltyCount')  int? penaltyCount, @JsonKey(name: 'hostedMatchCount')  int? hostedMatchCount, @JsonKey(name: 'participatedMatchCount')  int? participatedMatchCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String nickname,  String? profileImg,  String? level, @JsonKey(name: 'interestLoc1')  String? interestLoc1, @JsonKey(name: 'interestLoc2')  String? interestLoc2, @JsonKey(name: 'racketInfo')  String? racketInfo, @JsonKey(name: 'playStyle')  String? playStyle, @JsonKey(name: 'ratingScore')  double? ratingScore, @JsonKey(name: 'penaltyCount')  int? penaltyCount, @JsonKey(name: 'hostedMatchCount')  int? hostedMatchCount, @JsonKey(name: 'participatedMatchCount')  int? participatedMatchCount, @JsonKey(readValue: _readJoinedAt)  String? joinedAt, @JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson)  List<String>? mannerTags)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserProfileDto() when $default != null:
-return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.interestLoc1,_that.interestLoc2,_that.racketInfo,_that.playStyle,_that.ratingScore,_that.penaltyCount,_that.hostedMatchCount,_that.participatedMatchCount);case _:
+return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.interestLoc1,_that.interestLoc2,_that.racketInfo,_that.playStyle,_that.ratingScore,_that.penaltyCount,_that.hostedMatchCount,_that.participatedMatchCount,_that.joinedAt,_that.mannerTags);case _:
   return orElse();
 
 }
@@ -185,10 +187,10 @@ return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.inter
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String nickname,  String? profileImg,  String? level, @JsonKey(name: 'interestLoc1')  String? interestLoc1, @JsonKey(name: 'interestLoc2')  String? interestLoc2, @JsonKey(name: 'racketInfo')  String? racketInfo, @JsonKey(name: 'playStyle')  String? playStyle, @JsonKey(name: 'ratingScore')  double? ratingScore, @JsonKey(name: 'penaltyCount')  int? penaltyCount, @JsonKey(name: 'hostedMatchCount')  int? hostedMatchCount, @JsonKey(name: 'participatedMatchCount')  int? participatedMatchCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String nickname,  String? profileImg,  String? level, @JsonKey(name: 'interestLoc1')  String? interestLoc1, @JsonKey(name: 'interestLoc2')  String? interestLoc2, @JsonKey(name: 'racketInfo')  String? racketInfo, @JsonKey(name: 'playStyle')  String? playStyle, @JsonKey(name: 'ratingScore')  double? ratingScore, @JsonKey(name: 'penaltyCount')  int? penaltyCount, @JsonKey(name: 'hostedMatchCount')  int? hostedMatchCount, @JsonKey(name: 'participatedMatchCount')  int? participatedMatchCount, @JsonKey(readValue: _readJoinedAt)  String? joinedAt, @JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson)  List<String>? mannerTags)  $default,) {final _that = this;
 switch (_that) {
 case _UserProfileDto():
-return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.interestLoc1,_that.interestLoc2,_that.racketInfo,_that.playStyle,_that.ratingScore,_that.penaltyCount,_that.hostedMatchCount,_that.participatedMatchCount);case _:
+return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.interestLoc1,_that.interestLoc2,_that.racketInfo,_that.playStyle,_that.ratingScore,_that.penaltyCount,_that.hostedMatchCount,_that.participatedMatchCount,_that.joinedAt,_that.mannerTags);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +207,10 @@ return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.inter
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String nickname,  String? profileImg,  String? level, @JsonKey(name: 'interestLoc1')  String? interestLoc1, @JsonKey(name: 'interestLoc2')  String? interestLoc2, @JsonKey(name: 'racketInfo')  String? racketInfo, @JsonKey(name: 'playStyle')  String? playStyle, @JsonKey(name: 'ratingScore')  double? ratingScore, @JsonKey(name: 'penaltyCount')  int? penaltyCount, @JsonKey(name: 'hostedMatchCount')  int? hostedMatchCount, @JsonKey(name: 'participatedMatchCount')  int? participatedMatchCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String nickname,  String? profileImg,  String? level, @JsonKey(name: 'interestLoc1')  String? interestLoc1, @JsonKey(name: 'interestLoc2')  String? interestLoc2, @JsonKey(name: 'racketInfo')  String? racketInfo, @JsonKey(name: 'playStyle')  String? playStyle, @JsonKey(name: 'ratingScore')  double? ratingScore, @JsonKey(name: 'penaltyCount')  int? penaltyCount, @JsonKey(name: 'hostedMatchCount')  int? hostedMatchCount, @JsonKey(name: 'participatedMatchCount')  int? participatedMatchCount, @JsonKey(readValue: _readJoinedAt)  String? joinedAt, @JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson)  List<String>? mannerTags)?  $default,) {final _that = this;
 switch (_that) {
 case _UserProfileDto() when $default != null:
-return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.interestLoc1,_that.interestLoc2,_that.racketInfo,_that.playStyle,_that.ratingScore,_that.penaltyCount,_that.hostedMatchCount,_that.participatedMatchCount);case _:
+return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.interestLoc1,_that.interestLoc2,_that.racketInfo,_that.playStyle,_that.ratingScore,_that.penaltyCount,_that.hostedMatchCount,_that.participatedMatchCount,_that.joinedAt,_that.mannerTags);case _:
   return null;
 
 }
@@ -220,7 +222,7 @@ return $default(_that.id,_that.nickname,_that.profileImg,_that.level,_that.inter
 @JsonSerializable()
 
 class _UserProfileDto implements UserProfileDto {
-  const _UserProfileDto({required this.id, required this.nickname, this.profileImg, this.level, @JsonKey(name: 'interestLoc1') this.interestLoc1, @JsonKey(name: 'interestLoc2') this.interestLoc2, @JsonKey(name: 'racketInfo') this.racketInfo, @JsonKey(name: 'playStyle') this.playStyle, @JsonKey(name: 'ratingScore') this.ratingScore, @JsonKey(name: 'penaltyCount') this.penaltyCount, @JsonKey(name: 'hostedMatchCount') this.hostedMatchCount, @JsonKey(name: 'participatedMatchCount') this.participatedMatchCount});
+  const _UserProfileDto({required this.id, required this.nickname, this.profileImg, this.level, @JsonKey(name: 'interestLoc1') this.interestLoc1, @JsonKey(name: 'interestLoc2') this.interestLoc2, @JsonKey(name: 'racketInfo') this.racketInfo, @JsonKey(name: 'playStyle') this.playStyle, @JsonKey(name: 'ratingScore') this.ratingScore, @JsonKey(name: 'penaltyCount') this.penaltyCount, @JsonKey(name: 'hostedMatchCount') this.hostedMatchCount, @JsonKey(name: 'participatedMatchCount') this.participatedMatchCount, @JsonKey(readValue: _readJoinedAt) this.joinedAt, @JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson) final  List<String>? mannerTags}): _mannerTags = mannerTags;
   factory _UserProfileDto.fromJson(Map<String, dynamic> json) => _$UserProfileDtoFromJson(json);
 
 @override final  int id;
@@ -235,6 +237,16 @@ class _UserProfileDto implements UserProfileDto {
 @override@JsonKey(name: 'penaltyCount') final  int? penaltyCount;
 @override@JsonKey(name: 'hostedMatchCount') final  int? hostedMatchCount;
 @override@JsonKey(name: 'participatedMatchCount') final  int? participatedMatchCount;
+@override@JsonKey(readValue: _readJoinedAt) final  String? joinedAt;
+ final  List<String>? _mannerTags;
+@override@JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson) List<String>? get mannerTags {
+  final value = _mannerTags;
+  if (value == null) return null;
+  if (_mannerTags is EqualUnmodifiableListView) return _mannerTags;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of UserProfileDto
 /// with the given fields replaced by the non-null parameter values.
@@ -249,16 +261,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfileDto&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImg, profileImg) || other.profileImg == profileImg)&&(identical(other.level, level) || other.level == level)&&(identical(other.interestLoc1, interestLoc1) || other.interestLoc1 == interestLoc1)&&(identical(other.interestLoc2, interestLoc2) || other.interestLoc2 == interestLoc2)&&(identical(other.racketInfo, racketInfo) || other.racketInfo == racketInfo)&&(identical(other.playStyle, playStyle) || other.playStyle == playStyle)&&(identical(other.ratingScore, ratingScore) || other.ratingScore == ratingScore)&&(identical(other.penaltyCount, penaltyCount) || other.penaltyCount == penaltyCount)&&(identical(other.hostedMatchCount, hostedMatchCount) || other.hostedMatchCount == hostedMatchCount)&&(identical(other.participatedMatchCount, participatedMatchCount) || other.participatedMatchCount == participatedMatchCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfileDto&&(identical(other.id, id) || other.id == id)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.profileImg, profileImg) || other.profileImg == profileImg)&&(identical(other.level, level) || other.level == level)&&(identical(other.interestLoc1, interestLoc1) || other.interestLoc1 == interestLoc1)&&(identical(other.interestLoc2, interestLoc2) || other.interestLoc2 == interestLoc2)&&(identical(other.racketInfo, racketInfo) || other.racketInfo == racketInfo)&&(identical(other.playStyle, playStyle) || other.playStyle == playStyle)&&(identical(other.ratingScore, ratingScore) || other.ratingScore == ratingScore)&&(identical(other.penaltyCount, penaltyCount) || other.penaltyCount == penaltyCount)&&(identical(other.hostedMatchCount, hostedMatchCount) || other.hostedMatchCount == hostedMatchCount)&&(identical(other.participatedMatchCount, participatedMatchCount) || other.participatedMatchCount == participatedMatchCount)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt)&&const DeepCollectionEquality().equals(other._mannerTags, _mannerTags));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nickname,profileImg,level,interestLoc1,interestLoc2,racketInfo,playStyle,ratingScore,penaltyCount,hostedMatchCount,participatedMatchCount);
+int get hashCode => Object.hash(runtimeType,id,nickname,profileImg,level,interestLoc1,interestLoc2,racketInfo,playStyle,ratingScore,penaltyCount,hostedMatchCount,participatedMatchCount,joinedAt,const DeepCollectionEquality().hash(_mannerTags));
 
 @override
 String toString() {
-  return 'UserProfileDto(id: $id, nickname: $nickname, profileImg: $profileImg, level: $level, interestLoc1: $interestLoc1, interestLoc2: $interestLoc2, racketInfo: $racketInfo, playStyle: $playStyle, ratingScore: $ratingScore, penaltyCount: $penaltyCount, hostedMatchCount: $hostedMatchCount, participatedMatchCount: $participatedMatchCount)';
+  return 'UserProfileDto(id: $id, nickname: $nickname, profileImg: $profileImg, level: $level, interestLoc1: $interestLoc1, interestLoc2: $interestLoc2, racketInfo: $racketInfo, playStyle: $playStyle, ratingScore: $ratingScore, penaltyCount: $penaltyCount, hostedMatchCount: $hostedMatchCount, participatedMatchCount: $participatedMatchCount, joinedAt: $joinedAt, mannerTags: $mannerTags)';
 }
 
 
@@ -269,7 +281,7 @@ abstract mixin class _$UserProfileDtoCopyWith<$Res> implements $UserProfileDtoCo
   factory _$UserProfileDtoCopyWith(_UserProfileDto value, $Res Function(_UserProfileDto) _then) = __$UserProfileDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String nickname, String? profileImg, String? level,@JsonKey(name: 'interestLoc1') String? interestLoc1,@JsonKey(name: 'interestLoc2') String? interestLoc2,@JsonKey(name: 'racketInfo') String? racketInfo,@JsonKey(name: 'playStyle') String? playStyle,@JsonKey(name: 'ratingScore') double? ratingScore,@JsonKey(name: 'penaltyCount') int? penaltyCount,@JsonKey(name: 'hostedMatchCount') int? hostedMatchCount,@JsonKey(name: 'participatedMatchCount') int? participatedMatchCount
+ int id, String nickname, String? profileImg, String? level,@JsonKey(name: 'interestLoc1') String? interestLoc1,@JsonKey(name: 'interestLoc2') String? interestLoc2,@JsonKey(name: 'racketInfo') String? racketInfo,@JsonKey(name: 'playStyle') String? playStyle,@JsonKey(name: 'ratingScore') double? ratingScore,@JsonKey(name: 'penaltyCount') int? penaltyCount,@JsonKey(name: 'hostedMatchCount') int? hostedMatchCount,@JsonKey(name: 'participatedMatchCount') int? participatedMatchCount,@JsonKey(readValue: _readJoinedAt) String? joinedAt,@JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson) List<String>? mannerTags
 });
 
 
@@ -286,7 +298,7 @@ class __$UserProfileDtoCopyWithImpl<$Res>
 
 /// Create a copy of UserProfileDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nickname = null,Object? profileImg = freezed,Object? level = freezed,Object? interestLoc1 = freezed,Object? interestLoc2 = freezed,Object? racketInfo = freezed,Object? playStyle = freezed,Object? ratingScore = freezed,Object? penaltyCount = freezed,Object? hostedMatchCount = freezed,Object? participatedMatchCount = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nickname = null,Object? profileImg = freezed,Object? level = freezed,Object? interestLoc1 = freezed,Object? interestLoc2 = freezed,Object? racketInfo = freezed,Object? playStyle = freezed,Object? ratingScore = freezed,Object? penaltyCount = freezed,Object? hostedMatchCount = freezed,Object? participatedMatchCount = freezed,Object? joinedAt = freezed,Object? mannerTags = freezed,}) {
   return _then(_UserProfileDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
@@ -300,7 +312,9 @@ as String?,ratingScore: freezed == ratingScore ? _self.ratingScore : ratingScore
 as double?,penaltyCount: freezed == penaltyCount ? _self.penaltyCount : penaltyCount // ignore: cast_nullable_to_non_nullable
 as int?,hostedMatchCount: freezed == hostedMatchCount ? _self.hostedMatchCount : hostedMatchCount // ignore: cast_nullable_to_non_nullable
 as int?,participatedMatchCount: freezed == participatedMatchCount ? _self.participatedMatchCount : participatedMatchCount // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,joinedAt: freezed == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
+as String?,mannerTags: freezed == mannerTags ? _self._mannerTags : mannerTags // ignore: cast_nullable_to_non_nullable
+as List<String>?,
   ));
 }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/dto/user_profile_dto.dart';
@@ -23,6 +25,14 @@ class MyProfileNotifier extends AsyncNotifier<UserProfileDto> {
 
   Future<UserProfileDto> save(UserProfilePatchDto patch) async {
     final updated = await ref.read(profileRepositoryProvider).patchMe(patch);
+    state = AsyncData(updated);
+    return updated;
+  }
+
+  Future<UserProfileDto> uploadProfileImage(File imageFile) async {
+    final updated = await ref
+        .read(profileRepositoryProvider)
+        .uploadProfileImage(imageFile);
     state = AsyncData(updated);
     return updated;
   }

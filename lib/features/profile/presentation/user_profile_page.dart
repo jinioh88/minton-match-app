@@ -4,10 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../shared/widgets/app_error_message_view.dart';
 import '../../../shared/widgets/app_loading_indicator.dart';
+import '../../../shared/widgets/korea_region_presets.dart';
 import 'user_profile_by_id_provider.dart';
-import 'widgets/profile_avatar.dart';
-import 'widgets/profile_fields_section.dart';
-import 'widgets/profile_stats_strip.dart';
+import 'widgets/profile_overview_widgets.dart';
 
 class UserProfilePage extends ConsumerWidget {
   const UserProfilePage({super.key, required this.userId});
@@ -37,11 +36,23 @@ class UserProfilePage extends ConsumerWidget {
         data: (p) => ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Center(child: ProfileAvatar(imageUrl: p.profileImg, radius: 48)),
-            const SizedBox(height: 16),
-            ProfileStatsStrip(profile: p, emphasizeTrust: true),
-            const SizedBox(height: 8),
-            ProfileFieldsSection(profile: p),
+            ProfileOverviewHeader(
+              profile: p,
+              joinedAtText: _joinedAtLabel(p.joinedAt),
+              tags: _resolvedTags(p.mannerTags),
+            ),
+            const SizedBox(height: 24),
+            ProfileActivitySummarySection(profile: p),
+            const SizedBox(height: 24),
+            ProfileDetailsSection(
+              title: '상세 정보',
+              loc1Label: regionCodeLabel(p.interestLoc1),
+              loc2Label: regionCodeLabel(p.interestLoc2),
+              racketLabel: p.racketInfo?.trim().isNotEmpty == true
+                  ? p.racketInfo!.trim()
+                  : '-',
+              playStyleLabel: p.playStyle,
+            ),
           ],
         ),
         loading: () => const AppLoadingIndicator(),
@@ -49,4 +60,23 @@ class UserProfilePage extends ConsumerWidget {
       ),
     );
   }
+}
+
+String _joinedAtLabel(String? raw) {
+  if (raw == null || raw.trim().isEmpty) return '가입일: -';
+  final parsed = DateTime.tryParse(raw.trim());
+  if (parsed == null) return '가입일: -';
+  final y = parsed.year.toString().padLeft(4, '0');
+  final m = parsed.month.toString().padLeft(2, '0');
+  final d = parsed.day.toString().padLeft(2, '0');
+  return '가입일: $y.$m.$d';
+}
+
+List<String> _resolvedTags(List<String>? tags) {
+  return (tags ?? const <String>[])
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .take(3)
+      .map((e) => e.startsWith('#') ? e : '#$e')
+      .toList();
 }
