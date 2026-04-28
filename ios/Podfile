@@ -1,5 +1,5 @@
-# iOS 13+ 권장 (카카오 Flutter SDK 등 최소 버전 요구 시 대비)
-platform :ios, '13.0'
+# iOS 15+ (firebase_core 최소 요구 버전)
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'

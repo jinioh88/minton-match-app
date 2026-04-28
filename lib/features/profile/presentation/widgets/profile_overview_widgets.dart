@@ -24,104 +24,122 @@ class ProfileOverviewHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final level = profile.levelEnum?.label ?? '-';
     final rating = (profile.ratingScore ?? 0).toStringAsFixed(1);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            ProfileAvatar(imageUrl: profile.profileImg, radius: 38),
-            if (showCameraBadge)
-              Positioned(
-                right: -2,
-                bottom: -2,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: onCameraTap,
-                    customBorder: const CircleBorder(),
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        shape: BoxShape.circle,
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEFFAF6),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              ProfileAvatar(imageUrl: profile.profileImg, radius: 38),
+              if (showCameraBadge)
+                Positioned(
+                  right: -2,
+                  bottom: -2,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: onCameraTap,
+                      customBorder: const CircleBorder(),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.camera_alt_outlined, size: 16),
                       ),
-                      child: const Icon(Icons.camera_alt_outlined, size: 16),
                     ),
                   ),
                 ),
-              ),
-          ],
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      profile.nickname,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1ABC9C),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      level,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
+            ],
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        profile.nickname,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: const Color(0xFF0F172A),
+                          fontSize: 41 / 2,
+                          fontWeight: FontWeight.w800,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              if (joinedAtText != null) ...[
-                const SizedBox(height: 4),
-                Text(joinedAtText!, style: Theme.of(context).textTheme.bodySmall),
-              ],
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
-                  const Icon(Icons.star_border, color: Color(0xFFFFC107), size: 18),
-                  const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF10B981),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        level,
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (joinedAtText != null) ...[
+                  const SizedBox(height: 4),
                   Text(
-                    '$rating / 5.0',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    joinedAtText!,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: const Color(0xFF111827),
+                      fontSize: 24 / 2,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 8),
-              if (tags.isNotEmpty)
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: tags.map((e) => _TagChip(label: e)).toList(),
-                )
-              else
-                const _EmptyTagChip(),
-            ],
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
+                    const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
+                    const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
+                    const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
+                    const Icon(Icons.star_border, color: Color(0xFFFFC107), size: 18),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$rating / 5.0',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: const Color(0xFF111827),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                if (tags.isNotEmpty)
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: tags.map((e) => _TagChip(label: e)).toList(),
+                  )
+                else
+                  const _EmptyTagChip(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -142,7 +160,13 @@ class ProfileActivitySummarySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('활동 요약', style: Theme.of(context).textTheme.titleMedium),
+        Text(
+          '활동 요약',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: const Color(0xFF111827),
+            fontWeight: FontWeight.w800,
+          ),
+        ),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -200,36 +224,74 @@ class ProfileDetailsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(height: 1),
+        const Divider(height: 1, thickness: 1, color: Color(0xFFE5E7EB)),
         const SizedBox(height: 16),
         Row(
           children: [
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: const Color(0xFF111827),
+                fontSize: 34 / 2,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             const Spacer(),
-            if (onEdit != null) TextButton(onPressed: onEdit, child: const Text('수정')),
+            if (onEdit != null)
+              TextButton(
+                onPressed: onEdit,
+                child: const Text(
+                  '수정',
+                  style: TextStyle(
+                    color: Color(0xFF10B981),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
           ],
         ),
         const SizedBox(height: 8),
-        Text('관심 지역', style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          '관심 지역',
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF111827),
+              ),
+        ),
         const SizedBox(height: 8),
         Row(
           children: [
-            Expanded(child: _ReadonlyField(value: loc1Label)),
+            Expanded(child: _ReadonlyField(value: loc1Label, center: true)),
             const SizedBox(width: 10),
-            Expanded(child: _ReadonlyField(value: loc2Label)),
+            Expanded(child: _ReadonlyField(value: loc2Label, center: true)),
           ],
         ),
         const SizedBox(height: 14),
-        Text('나의 장비', style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          '나의 장비',
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF111827),
+              ),
+        ),
         const SizedBox(height: 8),
         _ReadonlyField(value: racketLabel),
         const SizedBox(height: 14),
-        Text('플레이 스타일', style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          '플레이 스타일',
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF111827),
+              ),
+        ),
         const SizedBox(height: 8),
-        if (playStyle == null || playStyle.isEmpty)
-          const _ReadonlyField(value: '-')
-        else
-          _StyleChip(label: playStyle),
+        _StyleChips(selected: playStyle),
       ],
     );
   }
@@ -297,9 +359,9 @@ class _SummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
       child: Column(
         children: [
@@ -307,11 +369,18 @@ class _SummaryCard extends StatelessWidget {
             value,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: valueColor,
+              fontSize: 52 / 2,
               fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 4),
-          Text(label, style: Theme.of(context).textTheme.labelSmall),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: const Color(0xFF111827),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );
@@ -319,42 +388,81 @@ class _SummaryCard extends StatelessWidget {
 }
 
 class _ReadonlyField extends StatelessWidget {
-  const _ReadonlyField({required this.value});
+  const _ReadonlyField({required this.value, this.center = false});
 
   final String value;
+  final bool center;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 46,
-      alignment: Alignment.centerLeft,
+      alignment: center ? Alignment.center : Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: const Color(0xFFD1D5DB)),
+        color: Colors.white,
       ),
-      child: Text(value, style: Theme.of(context).textTheme.bodyMedium),
+      child: Text(
+        value,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: const Color(0xFF111827),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }
 
-class _StyleChip extends StatelessWidget {
-  const _StyleChip({required this.label});
+class _StyleChips extends StatelessWidget {
+  const _StyleChips({required this.selected});
+
+  final String? selected;
+
+  @override
+  Widget build(BuildContext context) {
+    const options = ['공격형', '수비형', '올라운드'];
+    return Row(
+      children: options
+          .map(
+            (label) => Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: label == options.last ? 0 : 8),
+                child: _StyleChipItem(
+                  label: label,
+                  selected: selected == label,
+                ),
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+}
+
+class _StyleChipItem extends StatelessWidget {
+  const _StyleChipItem({required this.label, required this.selected});
+
   final String label;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      height: 40,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color(0xFF10B981),
-        border: Border.all(color: const Color(0xFF10B981)),
+        color: selected ? const Color(0xFF10B981) : Colors.white,
+        border: Border.all(
+          color: selected ? const Color(0xFF10B981) : const Color(0xFFD1D5DB),
+        ),
       ),
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: Colors.white,
+          color: selected ? Colors.white : const Color(0xFF111827),
           fontWeight: FontWeight.w600,
         ),
       ),

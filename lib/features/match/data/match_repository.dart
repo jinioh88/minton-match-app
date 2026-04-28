@@ -6,6 +6,8 @@ import '../../../core/network/api_exception.dart';
 import '../../../core/network/dio_provider.dart';
 import 'dto/create_match_dto.dart';
 import 'dto/match_view_dto.dart';
+import 'dto/penalty_dto.dart';
+import 'dto/review_dto.dart';
 import 'matches_api_service.dart';
 
 final matchesApiServiceProvider = Provider<MatchesApiService>((ref) {
@@ -89,6 +91,45 @@ class MatchRepository {
     if (!res.success || data == null) {
       throw ApiException(
         message: res.message ?? '매칭 수정에 실패했습니다.',
+        businessCode: res.code,
+      );
+    }
+    return data;
+  }
+
+  Future<MatchDetailDto> finishMatch(int matchId) async {
+    final res = await _api.finishMatch(matchId);
+    final data = res.data;
+    if (!res.success || data == null) {
+      throw ApiException(
+        message: res.message ?? '모임 종료 처리에 실패했습니다.',
+        businessCode: res.code,
+      );
+    }
+    return data;
+  }
+
+  Future<ReviewCreatedDto> createReview(int matchId, CreateReviewRequestDto request) async {
+    final res = await _api.createReview(matchId, request.toJson());
+    final data = res.data;
+    if (!res.success || data == null) {
+      throw ApiException(
+        message: res.message ?? '후기 등록에 실패했습니다.',
+        businessCode: res.code,
+      );
+    }
+    return data;
+  }
+
+  Future<CreatedPenaltyDto> createPenalty(
+    int matchId,
+    CreatePenaltyRequestDto request,
+  ) async {
+    final res = await _api.createPenalty(matchId, request.toJson());
+    final data = res.data;
+    if (!res.success || data == null) {
+      throw ApiException(
+        message: res.message ?? '패널티 부여에 실패했습니다.',
         businessCode: res.code,
       );
     }

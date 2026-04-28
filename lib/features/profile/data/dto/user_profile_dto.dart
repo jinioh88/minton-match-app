@@ -33,8 +33,13 @@ abstract class UserProfileDto with _$UserProfileDto {
     @JsonKey(name: 'playStyle') String? playStyle,
     @JsonKey(name: 'ratingScore') double? ratingScore,
     @JsonKey(name: 'penaltyCount') int? penaltyCount,
+    @JsonKey(name: 'receivedReviewCount') int? receivedReviewCount,
     @JsonKey(name: 'hostedMatchCount') int? hostedMatchCount,
     @JsonKey(name: 'participatedMatchCount') int? participatedMatchCount,
+    @JsonKey(name: 'showCautionBadge') bool? showCautionBadge,
+    @JsonKey(name: 'participationBannedUntil') String? participationBannedUntil,
+    @JsonKey(name: 'suspendedUntil') String? suspendedUntil,
+    @JsonKey(name: 'accountStatus') String? accountStatus,
     @JsonKey(readValue: _readJoinedAt) String? joinedAt,
     @JsonKey(readValue: _readMannerTags, fromJson: _tagsFromJson)
     List<String>? mannerTags,

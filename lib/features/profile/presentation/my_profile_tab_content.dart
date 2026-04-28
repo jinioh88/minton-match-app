@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/auth/auth_notifier.dart';
 import '../../../core/network/api_exception.dart';
+import '../../../core/routing/app_routes.dart';
 import '../../../shared/widgets/app_error_message_view.dart';
 import '../../../shared/widgets/app_loading_indicator.dart';
 import '../../../shared/widgets/app_primary_button.dart';
@@ -72,15 +74,17 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
         interestLoc1: _loc1,
         interestLoc2: _loc2,
         racketInfo: _racket.text.trim().isEmpty ? null : _racket.text.trim(),
-        playStyle: _playStyle?.trim().isEmpty == true ? null : _playStyle?.trim(),
+        playStyle: _playStyle?.trim().isEmpty == true
+            ? null
+            : _playStyle?.trim(),
       );
       await ref.read(myProfileNotifierProvider.notifier).save(patch);
       if (mounted) setState(() => _editing = false);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_msg(e))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_msg(e))));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -133,9 +137,9 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
       ).showSnackBar(const SnackBar(content: Text('프로필 이미지가 업데이트되었습니다.')));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_msg(e))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_msg(e))));
     } finally {
       if (mounted) setState(() => _uploadingImage = false);
     }
@@ -174,7 +178,7 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
           );
         }
         return ListView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
           children: [
             _ProfileHeaderSection(
               profile: p,
@@ -191,11 +195,23 @@ class _MyProfileTabContentState extends ConsumerState<MyProfileTabContent> {
               },
             ),
             const SizedBox(height: 20),
-            const _MenuListSection(),
-            const SizedBox(height: 28),
+            _MenuListSection(
+              onMatchHistory: () => context.push(AppRoutes.myHostedMatches),
+              onReviewHub: () => context.push(AppRoutes.myReviewHub),
+              onNoticeAndSupport: () => context.push(AppRoutes.notices),
+              onAccountManagement: () =>
+                  context.push(AppRoutes.accountManagement),
+            ),
+            const SizedBox(height: 40),
             TextButton(
-              onPressed: () =>
-                  ref.read(authNotifierProvider.notifier).logout(),
+              onPressed: () => ref.read(authNotifierProvider.notifier).logout(),
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(0xFF111827),
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               child: const Text('로그아웃'),
             ),
           ],
@@ -261,10 +277,7 @@ class _ActivitySummarySection extends StatelessWidget {
 }
 
 class _DetailedSettingsSection extends StatelessWidget {
-  const _DetailedSettingsSection({
-    required this.profile,
-    required this.onEdit,
-  });
+  const _DetailedSettingsSection({required this.profile, required this.onEdit});
 
   final UserProfileDto profile;
   final VoidCallback onEdit;
@@ -288,43 +301,63 @@ class _DetailedSettingsSection extends StatelessWidget {
 }
 
 class _MenuListSection extends StatelessWidget {
-  const _MenuListSection();
+  const _MenuListSection({
+    required this.onMatchHistory,
+    required this.onReviewHub,
+    required this.onNoticeAndSupport,
+    required this.onAccountManagement,
+  });
+
+  final VoidCallback onMatchHistory;
+  final VoidCallback onReviewHub;
+  final VoidCallback onNoticeAndSupport;
+  final VoidCallback onAccountManagement;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        Divider(height: 1),
-        _MenuItem(label: '매칭 내역'),
-        _MenuItem(label: '후기 관리'),
-        _MenuItem(label: '공지사항 및 고객센터'),
-        _MenuItem(label: '계정 관리'),
+      children: [
+        const Divider(height: 1),
+        _MenuItem(label: '매칭 내역', onTap: onMatchHistory),
+        _MenuItem(label: '후기 관리', onTap: onReviewHub),
+        _MenuItem(label: '공지사항 및 고객센터', onTap: onNoticeAndSupport),
+        _MenuItem(label: '계정 관리', onTap: onAccountManagement),
       ],
     );
   }
 }
 
 class _MenuItem extends StatelessWidget {
-  const _MenuItem({required this.label});
+  const _MenuItem({required this.label, this.onTap});
 
   final String label;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('$label 준비 중입니다.')));
-      },
+      onTap:
+          onTap ??
+          () {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('$label 준비 중입니다.')));
+          },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 18),
         child: Row(
           children: [
             Expanded(
-              child: Text(label, style: Theme.of(context).textTheme.titleSmall),
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontSize: 28 / 2,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF111827),
+                ),
+              ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.grey),
+            const Icon(Icons.chevron_right, color: Color(0xFF9CA3AF)),
           ],
         ),
       ),
@@ -376,78 +409,107 @@ class _EditForm extends StatelessWidget {
     final loc1Codes = koreaRegionPresets.map((e) => e.code).toSet();
     final safeLoc1 = loc1Codes.contains(loc1) ? loc1 : null;
     final safeLoc2 = loc1Codes.contains(loc2) ? loc2 : null;
-    final safePlayStyle = playStyleOptions.contains(playStyle) ? playStyle : null;
+    final safePlayStyle = playStyleOptions.contains(playStyle)
+        ? playStyle
+        : null;
+
+    InputDecoration deco(String label) => InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(
+        color: Color(0xFF334155),
+        fontWeight: FontWeight.w600,
+      ),
+      filled: true,
+      fillColor: Colors.white,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Color(0xFF3B5BFF), width: 1.2),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    );
 
     return ListView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       children: [
-        TextField(
-          controller: nick,
-          decoration: const InputDecoration(labelText: '닉네임'),
-        ),
-        TextField(
-          controller: img,
-          decoration: const InputDecoration(
-            labelText: '프로필 이미지 URL',
+        Text(
+          '프로필 수정',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: const Color(0xFF111827),
+            fontWeight: FontWeight.w800,
           ),
         ),
-        DropdownButtonFormField<String>(
-          key: ValueKey('loc1-$safeLoc1'),
-          initialValue: safeLoc1,
-          decoration: const InputDecoration(labelText: '관심 지역 1'),
-          items: loc1Items,
-          onChanged: onLoc1,
-        ),
-        DropdownButtonFormField<String?>(
-          key: ValueKey('loc2-$safeLoc2'),
-          initialValue: safeLoc2,
-          decoration: const InputDecoration(labelText: '관심 지역 2'),
-          items: [
-            const DropdownMenuItem<String?>(
-              value: null,
-              child: Text('선택 안 함'),
-            ),
-            ...loc1Items.map(
-              (e) => DropdownMenuItem<String?>(
-                value: e.value,
-                child: e.child,
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFE5E7EB)),
+          ),
+          child: Column(
+            children: [
+              TextField(controller: nick, decoration: deco('닉네임')),
+              const SizedBox(height: 10),
+              TextField(controller: img, decoration: deco('프로필 이미지 URL')),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<String>(
+                key: ValueKey('loc1-$safeLoc1'),
+                initialValue: safeLoc1,
+                decoration: deco('관심 지역 1'),
+                items: loc1Items,
+                onChanged: onLoc1,
               ),
-            ),
-          ],
-          onChanged: onLoc2,
-        ),
-        DropdownButtonFormField<UserLevel>(
-          key: ValueKey('lv-$level'),
-          initialValue: level,
-          decoration: const InputDecoration(labelText: '급수'),
-          items: UserLevel.values
-              .map(
-                (e) => DropdownMenuItem(value: e, child: Text(e.label)),
-              )
-              .toList(),
-          onChanged: onLevel,
-        ),
-        TextField(
-          controller: racket,
-          decoration: const InputDecoration(labelText: '라켓'),
-        ),
-        DropdownButtonFormField<String?>(
-          key: ValueKey('style-$safePlayStyle'),
-          initialValue: safePlayStyle,
-          decoration: const InputDecoration(labelText: '플레이 스타일'),
-          items: [
-            const DropdownMenuItem<String?>(
-              value: null,
-              child: Text('선택 안 함'),
-            ),
-            ...playStyleOptions.map(
-              (e) => DropdownMenuItem<String?>(
-                value: e,
-                child: Text(e),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<String?>(
+                key: ValueKey('loc2-$safeLoc2'),
+                initialValue: safeLoc2,
+                decoration: deco('관심 지역 2'),
+                items: [
+                  const DropdownMenuItem<String?>(
+                    value: null,
+                    child: Text('선택 안 함'),
+                  ),
+                  ...loc1Items.map(
+                    (e) =>
+                        DropdownMenuItem<String?>(value: e.value, child: e.child),
+                  ),
+                ],
+                onChanged: onLoc2,
               ),
-            ),
-          ],
-          onChanged: onPlayStyle,
+              const SizedBox(height: 10),
+              DropdownButtonFormField<UserLevel>(
+                key: ValueKey('lv-$level'),
+                initialValue: level,
+                decoration: deco('급수'),
+                items: UserLevel.values
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e.label)))
+                    .toList(),
+                onChanged: onLevel,
+              ),
+              const SizedBox(height: 10),
+              TextField(controller: racket, decoration: deco('라켓')),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<String?>(
+                key: ValueKey('style-$safePlayStyle'),
+                initialValue: safePlayStyle,
+                decoration: deco('플레이 스타일'),
+                items: [
+                  const DropdownMenuItem<String?>(
+                    value: null,
+                    child: Text('선택 안 함'),
+                  ),
+                  ...playStyleOptions.map(
+                    (e) => DropdownMenuItem<String?>(value: e, child: Text(e)),
+                  ),
+                ],
+                onChanged: onPlayStyle,
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 16),
         AppPrimaryButton(
@@ -456,7 +518,15 @@ class _EditForm extends StatelessWidget {
           isLoading: saving,
           onPressed: onSave,
         ),
-        TextButton(onPressed: onCancel, child: const Text('취소')),
+        const SizedBox(height: 8),
+        OutlinedButton(
+          onPressed: onCancel,
+          style: OutlinedButton.styleFrom(
+            foregroundColor: const Color(0xFF334155),
+            side: const BorderSide(color: Color(0xFFD1D5DB)),
+          ),
+          child: const Text('취소'),
+        ),
       ],
     );
   }

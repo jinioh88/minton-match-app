@@ -22,8 +22,6 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -36,9 +34,12 @@
 				<string>com.mintonmatch.app</string>
 				<string>$(KAKAO_OAUTH_SCHEME)</string>
 				<string>$(NAVER_URL_SCHEME)</string>
+				<string>$(GOOGLE_REVERSED_CLIENT_ID)</string>
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
@@ -47,16 +48,20 @@
 		<string>naversearchapp</string>
 		<string>naversearchthirdlogin</string>
 	</array>
-	<key>NidUrlScheme</key>
-	<string>$(NAVER_URL_SCHEME)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>GIDClientID</key>
+	<string>$(GOOGLE_IOS_CLIENT_ID)</string>
+	<key>GIDServerClientID</key>
+	<string>$(GOOGLE_SERVER_CLIENT_ID)</string>
+	<key>NidAppName</key>
+	<string>$(NAVER_APP_NAME)</string>
 	<key>NidClientID</key>
 	<string>$(NAVER_CLIENT_ID)</string>
 	<key>NidClientSecret</key>
 	<string>$(NAVER_CLIENT_SECRET)</string>
-	<key>NidAppName</key>
-	<string>$(NAVER_APP_NAME)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<key>NidUrlScheme</key>
+	<string>$(NAVER_URL_SCHEME)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

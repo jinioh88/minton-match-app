@@ -175,6 +175,12 @@ _MatchDetailDto _$MatchDetailDtoFromJson(
   canApply: json['canApply'] as bool?,
   canCancel: json['canCancel'] as bool?,
   hasWaitingOffer: json['hasWaitingOffer'] as bool?,
+  canFinishMatch: json['canFinishMatch'] as bool? ?? false,
+  reviewPendingUserIds:
+      (json['reviewPendingUserIds'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList() ??
+      const <int>[],
 );
 
 Map<String, dynamic> _$MatchDetailDtoToJson(_MatchDetailDto instance) =>
@@ -206,6 +212,8 @@ Map<String, dynamic> _$MatchDetailDtoToJson(_MatchDetailDto instance) =>
       'canApply': instance.canApply,
       'canCancel': instance.canCancel,
       'hasWaitingOffer': instance.hasWaitingOffer,
+      'canFinishMatch': instance.canFinishMatch,
+      'reviewPendingUserIds': instance.reviewPendingUserIds,
     };
 
 _MyParticipationSummaryDto _$MyParticipationSummaryDtoFromJson(

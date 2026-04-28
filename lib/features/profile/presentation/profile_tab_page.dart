@@ -10,16 +10,7 @@ class ProfileTabPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('마이페이지'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                ref.read(myProfileNotifierProvider.notifier).refresh(),
-          ),
-        ],
-      ),
+      backgroundColor: const Color(0xFFF5F7FB),
       body: const MyProfileTabContent(),
     );
   }

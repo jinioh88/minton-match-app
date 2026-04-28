@@ -116,6 +116,8 @@ abstract class MatchDetailDto with _$MatchDetailDto {
     bool? canApply,
     bool? canCancel,
     bool? hasWaitingOffer,
+    @Default(false) bool canFinishMatch,
+    @Default(<int>[]) List<int> reviewPendingUserIds,
   }) = _MatchDetailDto;
 
   factory MatchDetailDto.fromJson(Map<String, dynamic> json) =>

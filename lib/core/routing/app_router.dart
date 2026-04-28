@@ -5,12 +5,23 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/login_page.dart';
 import '../../features/chat/presentation/chat_tab_page.dart';
+import '../../features/chat/presentation/chat_room_page.dart';
+import '../../features/chat/presentation/chat_providers.dart';
+import '../../features/chat/presentation/notifications_page.dart';
 import '../../features/home/presentation/home_tab_page.dart';
 import '../../features/match/presentation/create_match_page.dart';
 import '../../features/match/presentation/edit_match_page.dart';
 import '../../features/match/presentation/match_detail_page.dart';
+import '../../features/match/presentation/write_review_page.dart';
 import '../../features/profile/presentation/profile_setup_page.dart';
 import '../../features/profile/presentation/profile_tab_page.dart';
+import '../../features/profile/presentation/my_hosted_matches_page.dart';
+import '../../features/profile/presentation/my_participated_matches_page.dart';
+import '../../features/profile/presentation/my_review_hub_page.dart';
+import '../../features/profile/presentation/my_friendships_page.dart';
+import '../../features/profile/presentation/notices_page.dart';
+import '../../features/profile/presentation/support_center_page.dart';
+import '../../features/profile/presentation/account_management_page.dart';
 import '../../features/profile/presentation/user_profile_page.dart';
 import '../auth/auth_notifier.dart';
 import '../auth/auth_session.dart';
@@ -105,6 +116,71 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CreateMatchPage(),
       ),
       GoRoute(
+        path: AppRoutes.notifications,
+        builder: (context, state) => const NotificationsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.myHostedMatches,
+        builder: (context, state) => const MyHostedMatchesPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.myParticipatedMatches,
+        builder: (context, state) => const MyParticipatedMatchesPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.myReviewHub,
+        builder: (context, state) => const MyReviewHubPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.myFriendships,
+        builder: (context, state) => const MyFriendshipsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.notices,
+        builder: (context, state) => const NoticesPage(),
+      ),
+      GoRoute(
+        path: '/notices/:noticeId',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['noticeId'] ?? '') ?? 0;
+          return NoticeDetailPage(noticeId: id);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.supportCenter,
+        builder: (context, state) => const SupportCenterPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.accountManagement,
+        builder: (context, state) => const AccountManagementPage(),
+      ),
+      GoRoute(
+        path: '/chat/rooms/:roomId',
+        builder: (context, state) {
+          final roomId =
+              int.tryParse(state.pathParameters['roomId'] ?? '') ?? 0;
+          return ChatRoomPage(roomId: roomId);
+        },
+      ),
+      GoRoute(
+        path: '/matches/:matchId/chat',
+        builder: (context, state) {
+          final matchId =
+              int.tryParse(state.pathParameters['matchId'] ?? '') ?? 0;
+          return _MatchChatEntryPage(matchId: matchId);
+        },
+      ),
+      GoRoute(
+        path: '/matches/:matchId/reviews/write/:revieweeId',
+        builder: (context, state) {
+          final matchId =
+              int.tryParse(state.pathParameters['matchId'] ?? '') ?? 0;
+          final revieweeId =
+              int.tryParse(state.pathParameters['revieweeId'] ?? '') ?? 0;
+          return WriteReviewPage(matchId: matchId, revieweeId: revieweeId);
+        },
+      ),
+      GoRoute(
         path: '/matches/:matchId',
         builder: (context, state) {
           final id = int.tryParse(state.pathParameters['matchId'] ?? '') ?? 0;
@@ -158,3 +234,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
   return router;
 });
+
+class _MatchChatEntryPage extends ConsumerWidget {
+  const _MatchChatEntryPage({required this.matchId});
+
+  final int matchId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(matchChatRoomProvider(matchId));
+    return async.when(
+      data: (detail) => ChatRoomPage(roomId: detail.roomId),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (e, _) => Scaffold(
+        appBar: AppBar(title: const Text('채팅방 진입')),
+        body: Center(child: Text(e.toString())),
+      ),
+    );
+  }
+}

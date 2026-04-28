@@ -5,6 +5,8 @@ import 'package:retrofit/retrofit.dart';
 
 import 'dto/create_match_dto.dart';
 import 'dto/match_view_dto.dart';
+import 'dto/penalty_dto.dart';
+import 'dto/review_dto.dart';
 
 part 'matches_api_service.g.dart';
 
@@ -37,6 +39,21 @@ abstract class MatchesApiService {
 
   @PATCH('/api/matches/{matchId}')
   Future<MatchDetailEnvelope> updateMatch(
+    @Path('matchId') int matchId,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @PATCH('/api/matches/{matchId}/finish')
+  Future<MatchDetailEnvelope> finishMatch(@Path('matchId') int matchId);
+
+  @POST('/api/matches/{matchId}/reviews')
+  Future<ReviewCreateEnvelope> createReview(
+    @Path('matchId') int matchId,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST('/api/matches/{matchId}/penalties')
+  Future<CreatePenaltyEnvelope> createPenalty(
     @Path('matchId') int matchId,
     @Body() Map<String, dynamic> body,
   );
